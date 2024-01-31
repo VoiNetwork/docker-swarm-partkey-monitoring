@@ -5,7 +5,8 @@ get_participation_expiration_eta() {
   last_committed_block=$2
   current_key_blocks_remaining=$((active_key_last_valid_round - last_committed_block))
 
-  remaining_seconds=$(echo "${current_key_blocks_remaining}*2.9" | bc)
+  # shellcheck disable=SC2046
+  remaining_seconds=$(printf "%.0f" $(echo "${current_key_blocks_remaining}*2.9" | bc))
   current_timestamp=$(date +%s)
   expiration_timestamp=$(echo "${current_timestamp}+${remaining_seconds}" | bc)
 
